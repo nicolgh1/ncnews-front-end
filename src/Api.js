@@ -31,7 +31,23 @@ export const getTopThreeArticlesPerTopic = (topic) => {
 }
 
 export const updateVotes = (article_id) => {
-    return ncApi.get(`/articles/${article_id}`, params: {inc_votes: 1}).then((respose)=> {
+    return ncApi.patch(`/articles/${article_id}`, {inc_votes: 1}).then((respose)=> {
         return respose.data
     })
+}
+
+export const getArticleById = (article_id) => {
+    return ncApi.get(`/articles/${article_id}`).then((respose)=> {
+        return respose.data
+    })
+}
+
+export const getArticleComments = (article_id) => {
+    return ncApi.get(`/articles/${article_id}/comments`).then((respose)=> {
+        return respose.data
+    })
+}
+
+export const getUserByUsername = (username) => {
+    
 }

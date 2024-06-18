@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../UserContext";
-import { getAllArticles, getTopics, updateVotes } from "../Api";
+import { getAllArticles, getTopics } from "../Api";
 import { Link } from "react-router-dom";
 
 export const Search = () => {
@@ -20,7 +20,6 @@ export const Search = () => {
     if(filterOptions.topic==='all' || filterOptions.topic==='' ){
         delete filterOptions.topic
     }
-    console.log(filterOptions,'in func filter opt')
     getAllArticles(filterOptions).then(({ articles }) => {
       setLoading(false);
       setAllArticles(articles);
@@ -55,12 +54,7 @@ export const Search = () => {
         return { ...curr, limit: e.target.value };
       });
   }
-  function handleVotesClick(article_id){
-    updateVotes(article_id).then((response) => {
-        console.log(response)
-    })
-  }
-  console.log(filterOptions, "filter");
+
   return (
     <>
       <h1>Search</h1>
