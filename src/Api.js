@@ -90,3 +90,9 @@ export const postComment = (article_id,commentInput,username) => {
         console.log(err)
     })
 }
+
+export const deleteComment = (comment_id) => {
+    return ncApi.delete(`/comments/${comment_id}`).catch((err)=>{
+        console.log(err)
+    })
+}
