@@ -8,3 +8,9 @@ export const mostPopular = (articles) => {
     }
     return mostPop
 }
+
+export const findUserAvatar = (username, users) => {
+    const userMatched = users.find(user => user.username === username)
+    return userMatched.avatar_url
+}
+

@@ -5,6 +5,9 @@ import { UserContext } from "../UserContext";
 export const UserMainPage = () => {
     const {userDetails,setUserDetails} = useContext(UserContext)
     return (
-        <><h1>User Main Page</h1></>
+        <>
+        <h1>User Main Page</h1>
+        <p>{userDetails.username}</p>
+        </>
     )
 }
