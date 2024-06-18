@@ -9,14 +9,10 @@ export const Header = () => {
     const navigate = useNavigate();
 
     function handleLogInClick(){
-        if(userDetails.username){
-            return navigate('/:username')
-        } else return navigate('/login')
+        return navigate('/login')
     }
     function handleHomeClick(){
-        if(userDetails.username){
-            return navigate('home/:username')
-        } else return navigate('/')
+        return navigate('/')
     }
     return (
         <section className='header'>

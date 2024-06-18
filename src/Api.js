@@ -33,21 +33,60 @@ export const getTopThreeArticlesPerTopic = (topic) => {
 export const updateVotes = (article_id) => {
     return ncApi.patch(`/articles/${article_id}`, {inc_votes: 1}).then((respose)=> {
         return respose.data
+    }).catch((err)=> {
+        console.log(err)
     })
 }
 
 export const getArticleById = (article_id) => {
     return ncApi.get(`/articles/${article_id}`).then((respose)=> {
         return respose.data
+    }).catch((err)=> {
+        console.log(err)
     })
 }
 
 export const getArticleComments = (article_id) => {
     return ncApi.get(`/articles/${article_id}/comments`).then((respose)=> {
+        console.log(respose.data,'in api')
         return respose.data
+    }).catch((err)=> {
+        console.log(err)
     })
 }
 
-export const getUserByUsername = (username) => {
-    
+export const getAllUsers = () => {
+    return ncApi.get('/users').then((respose)=>{
+        return respose.data
+    }).catch((err)=> {
+        console.log(err)
+    })
+}
+
+export const updateCommentVotes = (comment_id) => {
+    return ncApi.patch(`/comments/${comment_id}`, {inc_votes: 1}).then((respose)=> {
+        return respose.data
+    }).catch((err)=> {
+        console.log(err)
+    })
+}
+
+export const getUserById = (username) => {
+    return ncApi.get(`/users/${username}`).then((respose) => {
+        console.log(respose.data,'in api')
+        return respose.data
+    }).catch((err)=> {
+        console.log(err)
+    })
+}
+
+export const postComment = (article_id,commentInput,username) => {
+    return ncApi.post(`/articles/${article_id}/comments`,{
+        author: username,
+        body: commentInput
+    }).then((respose) => {
+        return respose.data
+    }).catch((err)=> {
+        console.log(err)
+    })
 }
