@@ -17,10 +17,9 @@ function App() {
     <Header />
     <Routes>
       <Route path="/" element={<Home/>}/>
-      {/* <Route path="/home/:username" element={<Home/>}/> */}
       <Route path="/login" element={<LogIn/>}/>
       <Route path="/search" element={<Search/>}/>
-      {/* <Route path="/search/:username" element={<Search/>}/> */}
+      <Route path="/search/:topic" element={<Search/>}/>
       <Route path="/user-page" element={<UserMainPage/>}/>
       <Route path="/post-article" element={<PostArticle/>}/>
       <Route path="/article/:article_id" element={<ArticlePage/>}/>

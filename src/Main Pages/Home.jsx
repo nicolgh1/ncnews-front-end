@@ -68,7 +68,7 @@ export const Home = () => {
                             <h4>{article.title}</h4>
                             <img className='image-top3-topics' src={article.article_img_url} ></img>
                         </div>
-                            </Link>)
+                        </Link>)
                     })}
                 </div>
                 )

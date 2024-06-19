@@ -6,7 +6,6 @@ const ncApi = axios.create({
 
 export const getAllArticles = (filterOptions) => {
     return ncApi.get('/articles',{params: filterOptions}).then((respose) => {
-        console.log(respose,'resp in api')
         return respose.data
     }).catch((err)=> {
         console.log(err,'in api')
@@ -48,7 +47,6 @@ export const getArticleById = (article_id) => {
 
 export const getArticleComments = (article_id) => {
     return ncApi.get(`/articles/${article_id}/comments`).then((respose)=> {
-        console.log(respose.data,'in api')
         return respose.data
     }).catch((err)=> {
         console.log(err)
@@ -73,7 +71,6 @@ export const updateCommentVotes = (comment_id) => {
 
 export const getUserById = (username) => {
     return ncApi.get(`/users/${username}`).then((respose) => {
-        console.log(respose.data,'in api')
         return respose.data
     }).catch((err)=> {
         console.log(err)
