@@ -20,6 +20,8 @@ const Comments = ({comment,allUsers, articleComments, setArticleComments}) =>{
         setArticleComments(newCommArray)
         deleteComment(comment.comment_id)
     }
+    // console.log(comment.author,'author')
+    // console.log(allUsers,'all users')
     return (
         <section className='comment'>
         <img src={findUserAvatar(comment.author,allUsers)}></img>
