@@ -14,7 +14,6 @@ export const getAllArticles = (filterOptions) => {
 
 export const getTopics = () => {
     return ncApi.get('/topics').then((respose) => {
-        console.log(respose.data,'in api')
         return respose.data
     }).catch((err)=> {
         console.log(err,'in api')

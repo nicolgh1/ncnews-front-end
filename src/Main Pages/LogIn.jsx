@@ -15,7 +15,6 @@ export const LogIn = () => {
             setUserDetails(user)
         })
     }
-    console.log(inputUsername,'input')
     return (
         <>
         <h1>Log IN</h1>

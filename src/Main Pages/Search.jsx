@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../UserContext";
 import { getAllArticles, getTopics } from "../Api";
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate, useSearchParams} from "react-router-dom";
 
 export const Search = () => {
   const { userDetails, setUserDetails } = useContext(UserContext);
@@ -15,14 +15,19 @@ export const Search = () => {
     limit: 10,
   });
   const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     setLoading(true);
     setAllArticles([]);
-    if(filterOptions.topic==='all' || filterOptions.topic==='' ){
-        delete filterOptions.topic
-    }
-    getAllArticles(filterOptions).then(({ articles }) => {
+
+    let filters = { ...filterOptions }
+        if (filters.topic === "all" || filters.topic === "") {
+            delete filters.topic;
+        }
+
+    getAllArticles(filters).then(({ articles }) => {
+
       setLoading(false);
       setAllArticles(articles);
     });
@@ -34,28 +39,28 @@ export const Search = () => {
       const topicSlugs = topics.map((topic) => topic.slug);
       setTopics(topicSlugs);
     });
-  }, [filterOptions]);
+  }, []);
+
+  function updateFilterOptions(newOptions) {
+    setFilterOptions((curr) => {
+        const updatedOptions = { ...curr, ...newOptions };
+        const params = new URLSearchParams(updatedOptions);
+        setSearchParams(params);
+        return updatedOptions;
+    });
+}
 
   function handleTopicChange(e) {
-    setFilterOptions((curr) => {
-      return { ...curr, topic: e.target.value };
-    });
-    navigate(`/search/${e.target.value}`)
+    updateFilterOptions({ topic: e.target.value })
   }
   function handleSortByChange(e) {
-    setFilterOptions((curr) => {
-      return { ...curr, sort_by: e.target.value };
-    });
+    updateFilterOptions({ sort_by: e.target.value })
   }
   function handleOrderChange(e) {
-    setFilterOptions((curr) => {
-      return { ...curr, order: e.target.value };
-    });
+    updateFilterOptions({ order: e.target.value })
   }
   function handleLimitChange(e){
-    setFilterOptions((curr) => {
-        return { ...curr, limit: e.target.value };
-      });
+    updateFilterOptions({ limit: e.target.value })
   }
 
   return (
@@ -85,7 +90,13 @@ export const Search = () => {
               Title
             </option>
             <option value={"votes"} key={"votes"}>
-              Popularity
+              Votes
+            </option>
+            <option value={"comment_count"} key={"comment_count"}>
+              Comments
+            </option>
+            <option value={"created_at"} key={"created_at"}>
+              Date
             </option>
           </select>
         </label>
