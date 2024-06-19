@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../UserContext";
 import { getAllArticles, getTopics } from "../Api";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 
 export const Search = () => {
   const { userDetails, setUserDetails } = useContext(UserContext);
@@ -14,6 +14,8 @@ export const Search = () => {
     order: "desc",
     limit: 10,
   });
+  const navigate = useNavigate()
+
   useEffect(() => {
     setLoading(true);
     setAllArticles([]);
@@ -38,6 +40,7 @@ export const Search = () => {
     setFilterOptions((curr) => {
       return { ...curr, topic: e.target.value };
     });
+    navigate(`/search/${e.target.value}`)
   }
   function handleSortByChange(e) {
     setFilterOptions((curr) => {
