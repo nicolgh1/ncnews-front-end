@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../UserContext";
 import { Link, useParams} from "react-router-dom";
-import { updateVotes, getArticleById, getArticleComments,getAllUsers,postComment } from "../Api";
+import { updateVotes, getArticleById, getArticleComments,getAllUsers,postComment, deleteArticle } from "../Api";
 import Comments from '../Components/Comments';
 import { ErrorPage } from "./ErrorPage";
+import { DeletedArticle } from "../Components/DeletionCompleted";
 
 export const ArticlePage = () => {
   const { userDetails, setUserDetails } = useContext(UserContext);
@@ -14,6 +15,8 @@ export const ArticlePage = () => {
   const [allUsers, setAllUsers] = useState([])
   const [commentInput, setCommentInput] = useState('')
   const [error, setError] = useState(null)
+  const [deletedArticleId, setDeletedArticleId] = useState([])
+
 
   useEffect(() => {
     setLoading(true)
@@ -42,11 +45,27 @@ export const ArticlePage = () => {
         setError(err)
     })
   },[])
-  function handleVotesClick(article_id) {
+  function handleVotesUpClick(article_id) {
+    const votesToUpdate = {inc_votes: 1}
     setCurrentArticle({...currentArticle, votes: currentArticle.votes+1})
-    updateVotes(article_id).then(({article}) => {
+    updateVotes(article_id,votesToUpdate).then(({article}) => {
         setCurrentArticle(article)
     });
+  }
+  function handleVotesDownClick(article_id) {
+    const votesToUpdate = {inc_votes: -1}
+    setCurrentArticle({...currentArticle, votes: currentArticle.votes-1})
+    updateVotes(article_id,votesToUpdate).then(({article}) => {
+        setCurrentArticle(article)
+    });
+  }
+  function handleDeleteArtButton(article_id){
+    deleteArticle(currentArticle.article_id).then((response)=> {
+      console.log(currentArticle.article_id, 'ID in handle delete')
+      setDeletedArticleId([currentArticle.article_id])
+    }).catch((err)=>{
+      setError(err)
+    })
   }
   function handleComInputChange(e){
     setCommentInput(e.target.value)
@@ -58,6 +77,7 @@ export const ArticlePage = () => {
     postComment(article_id,commentInput,userDetails.username)
     setCommentInput('')
   }
+  if(deletedArticleId.length>0){return <DeletedArticle article_id={deletedArticleId[0]}/>}
   if(error){
       console.log(error, 'in err func')
       return (
@@ -76,13 +96,18 @@ else {
         <h3>By {currentArticle.author}</h3>
         <img className="article-img" src={currentArticle.article_img_url}></img>
         <p>{currentArticle.body}</p>
+        <button>Likes: {currentArticle.votes}</button>
         <button
           onClick={() => {
-              handleVotesClick(currentArticle.article_id);
+              handleVotesUpClick(currentArticle.article_id);
             }}
             >
-          Likes: {currentArticle.votes}
+          👍
         </button>
+        <button onClick={() => {
+              handleVotesDownClick(currentArticle.article_id);
+            }}>👎</button>
+        {(userDetails.username)? <><button onClick={handleDeleteArtButton}>Delete Article</button></>: null}
         <section className="comment-input">
           {(userDetails.username)? 
           <>

@@ -9,7 +9,9 @@ export const Header = () => {
     const navigate = useNavigate();
 
     function handleLogInClick(){
-        return navigate('/login')
+        if(Object.keys(userDetails).length===0){
+            return navigate('/login')
+          } else return navigate('/user-page')
     }
     function handleHomeClick(){
         return navigate('/')

@@ -27,7 +27,6 @@ export const Search = () => {
         if (filters.topic === "all" || filters.topic === "") {
             delete filters.topic;
         }
-
     getAllArticles(filters).then(({ articles }) => {
 
       setLoading(false);
@@ -135,16 +134,18 @@ export const Search = () => {
         <h2>Articles</h2>
         {allArticles.map((article) => {
           return (
+            <>
             <Link to={`/article/${article.article_id}`} key={article.article_id}>
-              <div key={article.article_id}>
+              <section key={article.article_id}>
                 <h4>{article.title}</h4>
                 <img
                   className="image-top3-topics"
                   src={article.article_img_url}
                 ></img>
-                <button>{`Likes: ${article.votes}`}</button>
-              </div>
+              </section>
             </Link>
+            <button>{`Likes: ${article.votes}`}</button>
+            </>
           );
         })}
       </section>
