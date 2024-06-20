@@ -34,6 +34,7 @@ export const LogIn = () => {
             <label>
                 Username 
                 <input onChange={handleInputChange}></input>
+                <p>Use weegembump as test Username</p>
             </label>
             <button onClick={handleLogIn}>Log In</button>
             </>
