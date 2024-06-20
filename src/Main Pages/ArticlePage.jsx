@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../UserContext";
-import { useParams} from "react-router-dom";
+import { Link, useParams} from "react-router-dom";
 import { updateVotes, getArticleById, getArticleComments,getAllUsers,postComment } from "../Api";
 import Comments from '../Components/Comments';
 import { ErrorPage } from "./ErrorPage";
@@ -52,9 +52,9 @@ export const ArticlePage = () => {
     setCommentInput(e.target.value)
   }
   function handleCommentSubmit(){
-    setArticleComments([...articleComments,{body: commentInput,
-          votes: 0,
-          author: userDetails.username}])
+    setArticleComments([{body: commentInput,
+      votes: 0,
+      author: userDetails.username},...articleComments])
     postComment(article_id,commentInput,userDetails.username)
     setCommentInput('')
   }
@@ -83,18 +83,18 @@ else {
             >
           Likes: {currentArticle.votes}
         </button>
-        <section className="article-comments">
-          {articleComments.map((comment) => {
-              return <Comments key={comment.comment_id} comment={comment} allUsers={allUsers} articleComments={articleComments} setArticleComments={setArticleComments} />
-            })}
-        </section>
         <section className="comment-input">
           {(userDetails.username)? 
           <>
           <h4>Comment as {userDetails.username}</h4>
           <input type="text" onChange={handleComInputChange} value={commentInput}></input>
           <button onClick={handleCommentSubmit}>Submit Comment</button>
-          </> : null}
+          </> : <><Link to='/login'><h3>Log In to Comment</h3></Link></>}
+        </section>
+        <section className="article-comments">
+          {articleComments.map((comment) => {
+              return <Comments key={comment.comment_id} comment={comment} allUsers={allUsers} articleComments={articleComments} setArticleComments={setArticleComments} />
+            })}
         </section>
       </div>
     );
