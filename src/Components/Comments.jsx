@@ -1,4 +1,4 @@
-import {findUserAvatar} from '../utils/utils'
+
 import {updateCommentVotes, deleteComment} from '../Api'
 import { useContext} from "react";
 import { UserContext } from "../UserContext";
@@ -24,7 +24,7 @@ const Comments = ({comment,allUsers, articleComments, setArticleComments}) =>{
     // console.log(allUsers,'all users')
     return (
         <section className='comment'>
-        <img src={findUserAvatar(comment.author,allUsers)}></img>
+        {/* <img src={findUserAvatar(comment.author,allUsers)}></img> */}
         <p className='author'>{comment.author}</p>
         <p className='body'>{comment.body}</p>
         <button className='likes' onClick={handleCommentLike}>Likes: {comment.votes}</button>

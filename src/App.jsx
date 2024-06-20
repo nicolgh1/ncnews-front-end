@@ -9,6 +9,7 @@ import { UserMainPage } from './Main Pages/UserMainPage'
 import {ArticlePage} from './Main Pages/ArticlePage'
 import {PostArticle} from './Main Pages/PostArticle'
 import { Header } from './Components/Header';
+import { ErrorPage } from './Main Pages/ErrorPage';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <Route path="/user-page" element={<UserMainPage/>}/>
       <Route path="/post-article" element={<PostArticle/>}/>
       <Route path="/article/:article_id" element={<ArticlePage/>}/>
+      <Route path="*" element={<ErrorPage/>} />
     </Routes>
     </BrowserRouter>
     </UserProvider>

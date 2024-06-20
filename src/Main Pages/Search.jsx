@@ -2,12 +2,14 @@ import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../UserContext";
 import { getAllArticles, getTopics } from "../Api";
 import { Link, useNavigate, useSearchParams} from "react-router-dom";
+import { ErrorPage } from './ErrorPage';
 
 export const Search = () => {
   const { userDetails, setUserDetails } = useContext(UserContext);
   const [allArticles, setAllArticles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [topics, setTopics] = useState([]);
+  const [error, setError] = useState(null)
   const [filterOptions, setFilterOptions] = useState({
     topic: "",
     sort_by: "votes",
@@ -30,7 +32,9 @@ export const Search = () => {
 
       setLoading(false);
       setAllArticles(articles);
-    });
+    }).catch((err)=>{
+      setError(err)
+  })
   }, [filterOptions]);
 
   useEffect(() => {
@@ -38,7 +42,9 @@ export const Search = () => {
     getTopics().then(({ topics }) => {
       const topicSlugs = topics.map((topic) => topic.slug);
       setTopics(topicSlugs);
-    });
+    }).catch((err)=>{
+      setError(err)
+  })
   }, []);
 
   function updateFilterOptions(newOptions) {
@@ -62,7 +68,12 @@ export const Search = () => {
   function handleLimitChange(e){
     updateFilterOptions({ limit: e.target.value })
   }
-
+  if(error) {
+    return (<ErrorPage error={error}/>)
+  }
+    else 
+  if(loading) {return <p>Loading...</p>}
+  else 
   return (
     <>
       <h1>Search</h1>
@@ -124,7 +135,7 @@ export const Search = () => {
         <h2>Articles</h2>
         {allArticles.map((article) => {
           return (
-            <Link to={`/article/${article.article_id}`}>
+            <Link to={`/article/${article.article_id}`} key={article.article_id}>
               <div key={article.article_id}>
                 <h4>{article.title}</h4>
                 <img
