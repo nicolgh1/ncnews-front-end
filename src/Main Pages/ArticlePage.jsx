@@ -107,7 +107,7 @@ else {
         <button onClick={() => {
               handleVotesDownClick(currentArticle.article_id);
             }}>👎</button>
-        {(userDetails.username)? <><button onClick={handleDeleteArtButton}>Delete Article</button></>: null}
+        {(userDetails.username===currentArticle.author)? <><button onClick={handleDeleteArtButton}>Delete Article</button></>: null}
         <section className="comment-input">
           {(userDetails.username)? 
           <>

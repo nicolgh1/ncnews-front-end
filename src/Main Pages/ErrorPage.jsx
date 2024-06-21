@@ -17,7 +17,8 @@ export const ErrorPage = (error) => {
                     </>)
         }
      }
-    else return (
+    else 
+    return (
         <>
         <h1>Error Page</h1>
         <h3>Route Not Found</h3>
